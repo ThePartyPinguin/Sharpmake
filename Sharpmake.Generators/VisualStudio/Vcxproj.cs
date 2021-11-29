@@ -396,10 +396,16 @@ namespace Sharpmake.Generators.VisualStudio
             string projectKeyword = FileGeneratorUtilities.RemoveLineTag;
             string targetFrameworkString = FileGeneratorUtilities.RemoveLineTag;
 
+            bool usesNetCoreFramework = false;
+
             if (clrSupport)
             {
+                DotNetFramework dotnetFramework = firstConf.Target.GetFragment<DotNetFramework>();
+
                 projectKeyword = "ManagedCProj";
-                targetFrameworkString = Util.GetDotNetTargetString(firstConf.Target.GetFragment<DotNetFramework>());
+                targetFrameworkString = Util.GetDotNetTargetString(dotnetFramework);
+
+                usesNetCoreFramework = (int)(dotnetFramework & DotNetFramework.all_netcore) > 0;
             }
 
             using (fileGenerator.Declare("projectName", firstConf.ProjectName))
@@ -410,7 +416,14 @@ namespace Sharpmake.Generators.VisualStudio
             using (fileGenerator.Declare("targetFramework", targetFrameworkString))
             using (fileGenerator.Declare("projectKeyword", projectKeyword))
             {
-                fileGenerator.Write(Template.Project.ProjectDescription);
+                string projectDescription = Template.Project.ProjectDescription;
+
+                if (usesNetCoreFramework)
+                {
+                    projectDescription = Template.Project.ProjectDescriptionClrNetCore;
+                }
+
+                fileGenerator.Write(projectDescription);
             }
 
             string vcTargetsPath = "$(VCTargetsPath)";

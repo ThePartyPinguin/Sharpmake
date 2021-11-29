@@ -52,6 +52,19 @@ namespace Sharpmake.Generators.VisualStudio
     <ProjectName>[projectName]</ProjectName>
 ";
 
+                public static string ProjectDescriptionClrNetCore =
+@"  <PropertyGroup Label=""Globals"">
+    <ProjectGuid>{[guid]}</ProjectGuid>
+    <TargetFramework>[targetFramework]</TargetFramework>
+    <Keyword>[projectKeyword]</Keyword>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <RootNamespace>[projectName]</RootNamespace>
+    <SccProjectName>[sccProjectName]</SccProjectName>
+    <SccLocalPath>[sccLocalPath]</SccLocalPath>
+    <SccProvider>[sccProvider]</SccProvider>
+    <ProjectName>[projectName]</ProjectName>
+";
+
                 public const string DisableRegistryUse =
 @"    <DisableRegistryUse>true</DisableRegistryUse>
 ";
